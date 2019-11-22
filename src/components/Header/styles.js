@@ -6,8 +6,8 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 0px 20px;
-  padding: 10px 0px;
+  background-color: ${colors.dark};
+  padding: 10px 20px;
 `;
 
 export const Badge = styled.View`
