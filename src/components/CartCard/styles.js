@@ -8,6 +8,16 @@ export const MainContainer = styled.View`
   background-color: white;
   padding: 10px 10px;
   margin: 20px 20px;
+  border-radius: 4px;
+`;
+
+export const EmptyCartContainer = styled.View`
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px 10px;
+  margin: 20px 20px;
+  border-radius: 4px;
 `;
 
 export const InfoContainer = styled.View`
@@ -43,6 +53,7 @@ export const ProductAmount = styled.TextInput`
   border: 1px solid #ddd;
   border-radius: 4px;
   min-width: 52px;
+  color: gray;
 `;
 
 export const FinishContainer = styled.View`
