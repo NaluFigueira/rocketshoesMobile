@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Home } from './styles';
+import { Container } from './styles';
 
 import ProductCard from '../../components/ProductCard';
 
-export default function pages() {
+export default function Home({ navigation }) {
   return (
-    <Home>
-      <ProductCard />
-    </Home>
+    <Container>
+      <ProductCard navigation={navigation} />
+    </Container>
   );
 }

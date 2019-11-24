@@ -12,7 +12,8 @@ import {
   ButtonTitle,
 } from './styles';
 
-export default function ProductCard() {
+export default function ProductCard({ navigation }) {
+  const { navigate } = navigation;
   return (
     <Container>
       <ProductImage
@@ -24,7 +25,7 @@ export default function ProductCard() {
       />
       <ProductName>Tênis de caminhada leve</ProductName>
       <ProductPrice>R$ 179,90</ProductPrice>
-      <ProductAdd>
+      <ProductAdd onPress={() => navigate('Cart')}>
         <ProductCart>
           <Icon name="add-shopping-cart" color="white" size={20} />
           <Text style={{ color: 'white', fontSize: 14 }}> 0 </Text>

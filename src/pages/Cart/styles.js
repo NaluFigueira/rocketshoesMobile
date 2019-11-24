@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
-export const Container = styled.View`
+export const Home = styled.View`
   background-color: ${colors.dark};
   flex: 1;
 `;

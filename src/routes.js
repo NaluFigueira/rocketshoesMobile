@@ -6,11 +6,13 @@ import { createStackNavigator } from 'react-navigation-stack';
 import colors from './styles/colors';
 import Header from './components/Header';
 import Home from './pages/Home';
+import Cart from './pages/Cart';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
       Home,
+      Cart,
     },
     {
       defaultNavigationOptions: navigaton => ({
