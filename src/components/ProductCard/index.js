@@ -1,6 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   Container,
@@ -12,20 +16,30 @@ import {
   ButtonTitle,
 } from './styles';
 
-export default function ProductCard({ navigation }) {
-  const { navigate } = navigation;
+function ProductCard(props) {
+  const { navigate } = props.navigation;
+  const { id, title, image, priceFormatted } = props.product;
+
+  const handleAdicionar = id => {
+    const { addToCartRequest } = props;
+
+    addToCartRequest(id);
+  };
+
   return (
     <Container>
       <ProductImage
         resizeMode="contain"
         source={{
-          uri:
-            'https://static.zattini.com.br/produtos/sapato-casual-em-couro-d&r-shoes-masculino/06/FAO-0332-006/FAO-0332-006_zoom1.jpg',
+          uri: image,
         }}
       />
-      <ProductName>Tênis de caminhada leve</ProductName>
-      <ProductPrice>R$ 179,90</ProductPrice>
-      <ProductAdd onPress={() => navigate('Cart')}>
+      <View style={{ marginTop: 10, marginBottom: 10 }}>
+        <ProductName>{title}</ProductName>
+        <ProductPrice>{priceFormatted}</ProductPrice>
+      </View>
+
+      <ProductAdd onPress={() => handleAdicionar(id)}>
         <ProductCart>
           <Icon name="add-shopping-cart" color="white" size={20} />
           <Text style={{ color: 'white', fontSize: 14 }}> 0 </Text>
@@ -35,3 +49,12 @@ export default function ProductCard({ navigation }) {
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

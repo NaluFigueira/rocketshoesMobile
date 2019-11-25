@@ -8,6 +8,7 @@ module.exports = {
     'prettier/react'
   ],
   globals: {
+    __DEV__: 'readonly',
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
@@ -29,6 +30,7 @@ module.exports = {
       'warn',
       {extensions: ['.jsx','.js']}
     ],
-    'import/prefer-default-export':'off'
+    'import/prefer-default-export':'off',
+    'no-console':["error",{allow:["tron"]}]
   },
 };

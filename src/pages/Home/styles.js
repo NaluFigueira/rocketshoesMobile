@@ -3,7 +3,6 @@ import colors from '../../styles/colors';
 
 export const Container = styled.View`
   background-color: ${colors.dark};
-  flex: 1;
 `;
 
 export const Title = styled.Text`

@@ -12,12 +12,13 @@ export const Container = styled.View`
 `;
 
 export const ProductImage = styled.Image`
-  height: 45%;
-  width: 100%;
+  height: 200px;
+  width: 200px;
+  align-self: center;
 `;
 
 export const ProductName = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 export const ProductPrice = styled.Text`
