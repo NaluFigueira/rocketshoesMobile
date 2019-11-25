@@ -19,11 +19,19 @@ import {
 function ProductCard(props) {
   const { navigate } = props.navigation;
   const { id, title, image, priceFormatted } = props.product;
+  const { cart } = props;
 
   const handleAdicionar = id => {
     const { addToCartRequest } = props;
 
     addToCartRequest(id);
+  };
+
+  const getAmount = id => {
+    if (cart.length === 0) return 0;
+    const products = cart.filter(p => p.id === id);
+    if (!products[0]) return 0;
+    return products[0].amount;
   };
 
   return (
@@ -42,7 +50,7 @@ function ProductCard(props) {
       <ProductAdd onPress={() => handleAdicionar(id)}>
         <ProductCart>
           <Icon name="add-shopping-cart" color="white" size={20} />
-          <Text style={{ color: 'white', fontSize: 14 }}> 0 </Text>
+          <Text style={{ color: 'white', fontSize: 14 }}>{getAmount(id)}</Text>
         </ProductCart>
         <ButtonTitle>ADICIONAR</ButtonTitle>
       </ProductAdd>
