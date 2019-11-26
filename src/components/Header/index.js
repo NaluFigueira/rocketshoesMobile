@@ -1,9 +1,10 @@
 /* eslint-disable global-require */
 import React from 'react';
-import { View, Image, TouchableHighlight } from 'react-native';
+import { View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'proptypes';
 import * as CartActions from '../../store/modules/cart/actions';
 
 import Navigation from '../../services/navigation';
@@ -33,6 +34,19 @@ function Header(props) {
     </Container>
   );
 }
+
+Header.propTypes = {
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      image: PropTypes.string,
+      priceFormatted: PropTypes.string,
+      subtotal: PropTypes.number,
+      amount: PropTypes.number,
+    })
+  ).isRequired,
+};
 
 const mapStateToProps = state => ({
   cart: state.cart,

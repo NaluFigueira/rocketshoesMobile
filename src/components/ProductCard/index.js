@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'proptypes';
 import * as CartActions from '../../store/modules/cart/actions';
 
 import {
@@ -17,19 +19,18 @@ import {
 } from './styles';
 
 function ProductCard(props) {
-  const { navigate } = props.navigation;
-  const { id, title, image, priceFormatted } = props.product;
-  const { cart } = props;
+  const { product, cart } = props;
+  const { id, title, image, priceFormatted } = product;
 
-  const handleAdicionar = id => {
+  const handleAdicionar = productId => {
     const { addToCartRequest } = props;
 
-    addToCartRequest(id);
+    addToCartRequest(productId);
   };
 
-  const getAmount = id => {
+  const getAmount = productId => {
     if (cart.length === 0) return 0;
-    const products = cart.filter(p => p.id === id);
+    const products = cart.filter(p => p.id === productId);
     if (!products[0]) return 0;
     return products[0].amount;
   };
@@ -57,6 +58,18 @@ function ProductCard(props) {
     </Container>
   );
 }
+
+ProductCard.propTypes = {
+  addToCartRequest: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    priceFormatted: PropTypes.string.isRequired,
+    subtotal: PropTypes.number,
+    amount: PropTypes.number,
+  }).isRequired,
+};
 
 const mapStateToProps = state => ({
   cart: state.cart,

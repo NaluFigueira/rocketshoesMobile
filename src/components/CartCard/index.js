@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'proptypes';
 import colors from '../../styles/colors';
 import { formatPrice } from '../../util/format';
 import * as CartActions from '../../store/modules/cart/actions';
@@ -17,14 +18,14 @@ import {
 
 function CartCard(props) {
   const { updateAmountRequest, removeProduct, product } = props;
-  const { id, title, image, priceFormatted, subtotal, amount } = props.product;
+  const { id, title, image, priceFormatted, subtotal, amount } = product;
 
-  function incrementProductQuantity(product) {
-    updateAmountRequest(product.id, product.amount - 1);
+  function incrementProductQuantity(p) {
+    updateAmountRequest(p.id, p.amount - 1);
   }
 
-  function decrementProductQuantity(product) {
-    updateAmountRequest(product.id, product.amount + 1);
+  function decrementProductQuantity(p) {
+    updateAmountRequest(p.id, p.amount + 1);
   }
 
   return (
@@ -68,6 +69,19 @@ function CartCard(props) {
     </>
   );
 }
+
+CartCard.propTypes = {
+  updateAmountRequest: PropTypes.func.isRequired,
+  removeProduct: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    priceFormatted: PropTypes.string.isRequired,
+    subtotal: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 const mapStateToProps = state => ({
   products: state.cart.map(product => ({

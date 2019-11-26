@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { FlatList } from 'react-native';
 
+import PropTypes from 'proptypes';
 import { Container } from './styles';
 
 import { formatPrice } from '../../util/format';
@@ -44,3 +45,9 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
