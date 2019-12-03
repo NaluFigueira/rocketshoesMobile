@@ -18,7 +18,7 @@ Versão mobile da aplicação desenvolvida durante o módulo 7 nada mais é do q
 
 O principal objetivo da aplicação é entender e praticar os conceitos da arquitetura Flux.
 
-**Principais tecnologias**: Bare React Native, Styled Components, React Navigation, Redux (Saga), Styled Components, Immer.
+**Principais tecnologias**: Bare React Native, Styled Components, React Navigation, Redux (Saga), Styled Components, Immer, React Hooks
 
 **Ferramentas de edição e desenvolvimento**:  Eslint, Prettier.
 

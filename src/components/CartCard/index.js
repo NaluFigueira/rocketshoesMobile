@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'proptypes';
 import colors from '../../styles/colors';
 import { formatPrice } from '../../util/format';
@@ -16,16 +15,19 @@ import {
   ProductAmount,
 } from './styles';
 
-function CartCard(props) {
-  const { updateAmountRequest, removeProduct, product } = props;
-  const { id, title, image, priceFormatted, subtotal, amount } = product;
+export default function CartCard({ product }) {
+  const { id, title, image, amount } = product;
+  const subtotal = formatPrice(product.price * product.amount);
+  const priceFormatted = useSelector(() => formatPrice(product.price));
+
+  const dispatch = useDispatch();
 
   function incrementProductQuantity(p) {
-    updateAmountRequest(p.id, p.amount - 1);
+    dispatch(CartActions.updateAmountRequest(p.id, p.amount - 1));
   }
 
   function decrementProductQuantity(p) {
-    updateAmountRequest(p.id, p.amount + 1);
+    dispatch(CartActions.updateAmountRequest(p.id, p.amount + 1));
   }
 
   return (
@@ -45,7 +47,7 @@ function CartCard(props) {
           name="delete-forever"
           color={colors.primary}
           size={30}
-          onPress={() => removeProduct(id)}
+          onPress={() => dispatch(CartActions.removeProduct(id))}
         />
       </InfoContainer>
       <QuantityContainer>
@@ -71,27 +73,11 @@ function CartCard(props) {
 }
 
 CartCard.propTypes = {
-  updateAmountRequest: PropTypes.func.isRequired,
-  removeProduct: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
-    priceFormatted: PropTypes.string.isRequired,
-    subtotal: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     amount: PropTypes.number.isRequired,
   }).isRequired,
 };
-
-const mapStateToProps = state => ({
-  products: state.cart.map(product => ({
-    ...product,
-    subtotal: formatPrice(product.price * product.amount),
-    priceFormatted: formatPrice(product.price),
-  })),
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartCard);

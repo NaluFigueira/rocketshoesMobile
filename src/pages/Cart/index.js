@@ -2,12 +2,9 @@ import React from 'react';
 
 import { View, Text, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import PropTypes from 'proptypes';
+import { useSelector } from 'react-redux';
 import CartCard from '../../components/CartCard/index';
 import { formatPrice } from '../../util/format';
-import * as CartActions from '../../store/modules/cart/actions';
 
 import {
   Home,
@@ -18,8 +15,19 @@ import {
   ButtonTitle,
 } from './styles';
 
-function Cart(props) {
-  const { products, total } = props;
+export default function Cart() {
+  const products = useSelector(state =>
+    state.cart.map(product => ({ ...product }))
+  );
+
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce((t, product) => {
+        return t + product.price * product.amount;
+      }, 0)
+    )
+  );
+
   return (
     <Home>
       {products.length === 0 ? (
@@ -57,36 +65,3 @@ function Cart(props) {
     </Home>
   );
 }
-
-Cart.propTypes = {
-  products: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      image: PropTypes.string,
-      priceFormatted: PropTypes.string,
-      subtotal: PropTypes.string,
-      amount: PropTypes.number,
-    })
-  ).isRequired,
-  total: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
-  products: state.cart.map(product => ({
-    ...product,
-    subtotal: formatPrice(product.price * product.amount),
-    priceFormatted: formatPrice(product.price),
-  })),
-  total: formatPrice(
-    state.cart.reduce(
-      (total, product) => total + product.price * product.amount,
-      0
-    )
-  ),
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);

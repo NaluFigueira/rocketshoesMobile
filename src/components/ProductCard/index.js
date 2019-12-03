@@ -3,8 +3,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'proptypes';
 import * as CartActions from '../../store/modules/cart/actions';
 
@@ -18,14 +17,13 @@ import {
   ButtonTitle,
 } from './styles';
 
-function ProductCard(props) {
-  const { product, cart } = props;
+export default function ProductCard({ product }) {
+  const cart = useSelector(state => state.cart);
+  const dispatch = useDispatch();
   const { id, title, image, priceFormatted } = product;
 
   const handleAdicionar = productId => {
-    const { addToCartRequest } = props;
-
-    addToCartRequest(productId);
+    dispatch(CartActions.addToCartRequest(productId));
   };
 
   const getAmount = productId => {
@@ -60,7 +58,6 @@ function ProductCard(props) {
 }
 
 ProductCard.propTypes = {
-  addToCartRequest: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -70,12 +67,3 @@ ProductCard.propTypes = {
     amount: PropTypes.number,
   }).isRequired,
 };
-
-const mapStateToProps = state => ({
-  cart: state.cart,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);

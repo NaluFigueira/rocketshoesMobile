@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FlatList } from 'react-native';
 
@@ -10,40 +10,35 @@ import api from '../../services/api';
 
 import ProductCard from '../../components/ProductCard';
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-  }
+export default function Home({ navigation }) {
+  const [products, setProducts] = useState([]);
 
-  async componentDidMount() {
-    const response = await api.get('/products');
+  useEffect(() => {
+    async function loadProducts() {
+      const response = await api.get('/products');
 
-    const data = response.data.map(product => ({
-      ...product,
-      priceFormatted: formatPrice(product.price),
-    }));
+      const data = response.data.map(product => ({
+        ...product,
+        priceFormatted: formatPrice(product.price),
+      }));
 
-    this.setState({ products: data });
-  }
+      setProducts(data);
+    }
 
-  render() {
-    const { navigation } = this.props;
-    const { products } = this.state;
-    return (
-      <Container>
-        <FlatList
-          data={products}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <ProductCard key={item.id} navigation={navigation} product={item} />
-          )}
-        />
-      </Container>
-    );
-  }
+    loadProducts();
+  }, []);
+
+  return (
+    <Container>
+      <FlatList
+        data={products}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <ProductCard key={item.id} navigation={navigation} product={item} />
+        )}
+      />
+    </Container>
+  );
 }
 
 Home.propTypes = {

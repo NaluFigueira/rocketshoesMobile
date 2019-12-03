@@ -2,17 +2,15 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import PropTypes from 'proptypes';
-import * as CartActions from '../../store/modules/cart/actions';
+import { useSelector } from 'react-redux';
 
 import Navigation from '../../services/navigation';
 
 import { Container, Badge, BadgeNumber } from './styles';
 
-function Header(props) {
-  const { cart } = props;
+export default function Header() {
+  const cart = useSelector(state => state.cart);
+
   return (
     <Container>
       <Image
@@ -34,25 +32,3 @@ function Header(props) {
     </Container>
   );
 }
-
-Header.propTypes = {
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      image: PropTypes.string,
-      priceFormatted: PropTypes.string,
-      subtotal: PropTypes.number,
-      amount: PropTypes.number,
-    })
-  ).isRequired,
-};
-
-const mapStateToProps = state => ({
-  cart: state.cart,
-});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
